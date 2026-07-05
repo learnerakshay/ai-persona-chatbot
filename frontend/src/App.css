@@ -562,4 +562,27 @@ textarea {
     height: 44px;
     min-height: 44px;
   }
+.copy-button {
+  all: unset;
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background-color: #1f2937;
+  color: #b8c4e0;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #30384a;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.copy-button:hover {
+  background-color: #2a3448;
+  color: white;
+}
+
+.copy-button:active {
+  transform: scale(0.96);
+}
 }

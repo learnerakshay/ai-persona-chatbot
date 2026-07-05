@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Header from './components/Header.jsx';
 import PersonaSelector from './components/PersonaSelector.jsx';
 import ChatWindow from './components/ChatWindow.jsx';
@@ -29,12 +29,24 @@ const personaDetails = {
     welcome: "👋 Hey!\n\nI'm Piyush.\n\nLet's build something.",
   },
 };
-
 function App() {
+
   const [selectedPersona, setSelectedPersona] = useState('');
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState(() => {
+  const savedMessages = localStorage.getItem("chatMessages");
+  return savedMessages
+    ? JSON.parse(savedMessages)
+    : initialMessages;
+});
   const [isLoading, setIsLoading] = useState(false);
-  const activePersona = personaDetails[selectedPersona] || null;
+useEffect(() => {
+  localStorage.setItem(
+    "chatMessages",
+    JSON.stringify(messages)
+  );
+}, [messages]);
+
+const activePersona = personaDetails[selectedPersona] || null;
 
   const avatarByPersona = useMemo(
     () => ({
