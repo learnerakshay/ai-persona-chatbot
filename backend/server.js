@@ -20,9 +20,9 @@ app.post("/chat", async (req, res) => {
 
 
     try {
-        const { persona, message } = req.body;
+        const { persona, messages } = req.body;
 
-        if (!message) {
+        if (!messages || !messages.length) {
             return res.status(400).json({
                 error: "Message Required"
             });
@@ -33,15 +33,12 @@ app.post("/chat", async (req, res) => {
         const response = await client.chat.completions.create({
             model: "gpt-5.5",
             messages: [
-                {
-                    role: "system",
-                    content: selectedPrompt
-                },
-                {
-                    role: "user",
-                    content: message
-                }
-            ]
+    {
+        role: "system",
+        content: selectedPrompt,
+    },
+    ...messages,
+],
         });
         const aiReply = response.choices[0].message.content;
         res.json({

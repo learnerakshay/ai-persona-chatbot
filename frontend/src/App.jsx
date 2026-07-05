@@ -112,9 +112,20 @@ function App() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          persona,
-          message: trimmedMessage,
-        }),
+    persona,
+    messages: [
+        ...messages
+            .filter((msg) => !msg.isLoading)
+            .map((msg) => ({
+                role: msg.role,
+                content: msg.text,
+            })),
+        {
+            role: "user",
+            content: trimmedMessage,
+        },
+    ],
+}),
       });
 
       const data = await response.json();
@@ -159,7 +170,7 @@ function App() {
     }
 
     return true;
-  }, [activePersona, isLoading]);
+  }, [activePersona, isLoading, messages]);
 
   return (
     <main className={`app-shell ${isLoading ? 'app-shell-loading' : ''}`}>
